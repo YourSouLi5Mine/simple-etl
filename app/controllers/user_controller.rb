@@ -5,6 +5,7 @@ class UserController < ApplicationController
     extract
     transform
     upload
+    export
   end
 
   private
@@ -24,6 +25,10 @@ class UserController < ApplicationController
 
   def upload
     @rows.map { |row| User.create(curp: row[0], gender: row[1], state: row[2]) }
+  end
+
+  def export
+    CSV.open('app/assets/csv/Datos_RFC_Limpios.csv', "w+") { |csv| @rows.each { |row| csv << row } }
   end
 
   def states
